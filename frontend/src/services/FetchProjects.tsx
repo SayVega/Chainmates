@@ -23,7 +23,7 @@ export const useFetchProjects = () => {
         const data = await res.json();
         setProjects(data.data);
       } catch (error) {
-        console.error('Failed to load projects:', error);
+        console.error('Error al cargar los datos:', error);
       }
     };
 

@@ -1,4 +1,4 @@
-import { useFetchProjects } from '../hooks/useFetchProjects';
+import { useFetchProjects } from '../services/FetchProjects';
 import { ProjectList } from '../components/ProjectList';
 
 const Projects = () => {

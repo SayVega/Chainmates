@@ -1,7 +1,6 @@
-import { useNavigate } from "react-router-dom";
 
-export const useWalletLogin = () => {
-  const navigate = useNavigate();
+
+export const authWalletLogin = () => {
 
   const login = async () => {
     if (!window.ethereum) {
@@ -10,7 +9,7 @@ export const useWalletLogin = () => {
     }
 
     try {
-      const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+      const accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
       const account = accounts[0];
 
       const message = "Log in to Chainmates";
@@ -30,8 +29,10 @@ export const useWalletLogin = () => {
 
       const data = await response.json();
       localStorage.setItem('token', data.token);
+      localStorage.setItem('user', JSON.stringify(data.user.name));
+      localStorage.setItem('walletAddress', account);
 
-      navigate('/');
+      return data.user.name;
 
     } catch (error) {
       console.error('Error en login con wallet:', error);
