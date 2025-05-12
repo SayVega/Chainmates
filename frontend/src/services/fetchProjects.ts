@@ -1,17 +1,9 @@
 import { useEffect, useState } from 'react';
+import { Project } from '../types/Project';
 
-interface Project {
-  id: number;
-  title: string;
-  description: string;
-  creator: {
-    name: string | null;
-    wallet_address: string;
-  };
-}
 
-export const useFetchProjects = () => {
-  const [projects, setProjects] = useState<Project[]>([]);
+export const fetchProjects = () => {
+  const [projectsList, setProjects] = useState<Project[]>([]);
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -20,7 +12,7 @@ export const useFetchProjects = () => {
           method: 'GET',
           mode: 'cors',
         });
-        const data = await res.json();
+        const data = await res.json();    
         setProjects(data.data);
       } catch (error) {
         console.error('Error al cargar los datos:', error);
@@ -29,6 +21,5 @@ export const useFetchProjects = () => {
 
     fetchProjects();
   }, []);
-
-  return projects;
+  return projectsList;
 };

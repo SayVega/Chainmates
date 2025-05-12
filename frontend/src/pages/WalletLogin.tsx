@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { authWalletLogin } from '../services/AuthWalletLogin';
+import { authWalletLogin } from '../services/authWalletLogin';
 import { useNavigate } from "react-router-dom";
 
 export const WalletLogin = () => {

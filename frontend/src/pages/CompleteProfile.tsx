@@ -1,29 +1,50 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { UpdateUser } from "../services/UpdateUser";
-import { Button } from "../components/ui/Button";
+import { updateUser } from "../services/updateUser";
+import { toast } from 'react-hot-toast';
+import { CompleteProfileForm } from "../components/UserProfileForm";
 
 export default function CompleteProfile() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       const token = localStorage.getItem("token");
-      if(!token) {
+      if (!token) {
         alert("No se encontró el token de autenticación.");
         navigate("/");
         return;
       }
-      await UpdateUser(token,{ name, email, password });
+      await updateUser(token, { name, email, password });
+      toast.success('Datos modificados correctamente.', {
+        duration: 3000,
+        icon: null,
+        style: {border: '2px solid green',}});
       navigate("/");
-    } catch {
-      alert("Error al guardar los datos.");
+    } catch (error) {
+      console.error('Error al actualizar usuario:', error);
+      toast.error(
+        'Los datos no fueron modificados. Posibles razones:\n' +'• Token inválido o vencido\n' +'• Formato de email incorrecto\n' +'• Email ya registrado\n' +'• El servidor no está disponible',
+        {
+          duration: 6000,
+          icon:null,
+          style: {border: '2px solid red', textAlign: 'left'}
+        }
+      );
     }
+  };
+
+  const handleChange = (
+    field: "name" | "email" | "password",
+    value: string
+  ) => {
+    if (field === "name") setName(value);
+    else if (field === "email") setEmail(value);
+    else if (field === "password") setPassword(value);
   };
 
   const handleSkip = () => navigate("/");
@@ -34,44 +55,14 @@ export default function CompleteProfile() {
       <p className="text-xs text-gray-600">
         Podés completar esta información más adelante desde Configuración.
       </p>
-      <form onSubmit={handleSubmit} className="space-y-4 text-gray-700  ">
-        <input
-          className="w-full border px-3 py-2 rounded"
-          type="text"
-          placeholder="Nombre"
-          value={name}
-          required
-          onChange={(e) => setName(e.target.value)}
-          />
-        <input
-          className="w-full border px-3 py-2 rounded"
-          type="email"
-          placeholder="Email"
-          value={email}
-          required
-          onChange={(e) => setEmail(e.target.value)}/>
-        <input
-          className="w-full border px-3 py-2 rounded"
-          type="password"
-          placeholder="Contraseña"
-          value={password}
-          required
-          onChange={(e) => setPassword(e.target.value)}/>
-        <div className="flex justify-between items-center">
-          <Button
-            type="submit"
-            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-            Guardar
-          </Button>
-          <Button
-            type="button"
-            onClick={handleSkip}
-            className="text-gray-600 underline">
-            Saltar
-          </Button>
-        </div>
-      </form>
+      <CompleteProfileForm
+        name={name}
+        email={email}
+        password={password}
+        onChange={handleChange}
+        onSubmit={handleSubmit}
+        onSkip={handleSkip}
+      />
     </div>
   );
 }
-

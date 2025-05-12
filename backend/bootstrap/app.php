@@ -4,6 +4,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 
+
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
         web: __DIR__.'/../routes/web.php',
@@ -12,18 +13,10 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->append(\Illuminate\Http\Middleware\HandleCors::class);
-        $middleware->validateCsrfTokens(except:[
-            'wallet-login','user'
-        ]);
+        $middleware->validateCsrfTokens(except:['wallet-login','user','newproject']);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
     })->create();
 
-    $app->router->group([
-        'prefix' => 'api',
-        'middleware' => 'api',
-    ], function ($router) {
-        require base_path('routes/api.php');
-    });
     

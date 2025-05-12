@@ -1,11 +1,11 @@
-import { useFetchProjects } from '../services/FetchProjects';
+import { fetchProjects } from '../services/fetchProjects';
 import { ProjectList } from '../components/ProjectList';
 
 const Projects = () => {
-  const projects = useFetchProjects();
+  const projectsList = fetchProjects();
 
   return (
-      <ProjectList projects={projects} />
+      <ProjectList projects={projectsList} />
   );
 };
 

@@ -1,23 +1,11 @@
-interface Project {
-  id: number;
-  title: string;
-  description: string;
-  creator: {
-    name: string | null;
-    wallet_address: string;
-  };
-}
+import { Project } from "../types/Project";
+import { ProjectCard } from "./ui/ProjectCard";
+
 
 export const ProjectList = ({ projects}: { projects: Project[] }) => (
-  <div>
+  <div className="grid grid-cols-3 mt-16 justify-between gap-20">
     {projects.map((project) => (
-      <div key={project.id} className="border p-4 mb-4 rounded-xl shadow">
-        <h2 className="text-xl font-bold">{project.title}</h2>
-        <p className="text-gray-700">{project.description}</p>
-        <p className="text-sm text-gray-500 mt-2">
-          Creado por: {project.creator?.name ?? project.creator?.wallet_address ?? 'Desconocido'}
-        </p>
-      </div>
+      <ProjectCard key={project.id} project={project} />
     ))}
   </div>
 );

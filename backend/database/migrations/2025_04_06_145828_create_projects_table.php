@@ -11,11 +11,11 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('description')->nullable();
+            $table->string('documentation')->nullable();
             $table->json('media')->nullable();
-            $table->unsignedBigInteger('user_id'); // user_id of admin
-            $table->timestamps(); // created_at and updated_at
-
-
+            $table->unsignedBigInteger('user_id');
+            $table->timestamps();
+            $table->enum('status', ['open', 'closed'])->default('open');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }

@@ -49,6 +49,13 @@ class User extends Authenticatable implements JWTSubject
         ];
     }
 
+    public function projects()
+    {
+    return $this->belongsToMany(Project::class, 'project_members')
+                ->withPivot('role')
+                ->withTimestamps();
+    }
+
     public function getJWTIdentifier()
     {
         return $this->getKey();

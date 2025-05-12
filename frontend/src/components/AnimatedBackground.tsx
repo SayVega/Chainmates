@@ -38,7 +38,7 @@ const AnimatedBackground = () => {
   return (
     <div
       ref={containerRef}
-      className="absolute inset-0 overflow-hidden -z-1 top-[90px]"
+      className="absolute inset-0 overflow-hidden -z-1 top-[90px] fixed"
     >
       <svg className="absolute inset-0 w-screen h-screen">
         {pentagons.map((pentagon, index) => (
